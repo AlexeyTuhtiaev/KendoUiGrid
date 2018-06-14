@@ -1,0 +1,61 @@
+﻿@model IEnumerable<KendoUiGrid.Models.Car>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $(".delete-link").click(function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure?")) {
+                    $(this).closest("tr").hide("slow");
+                }
+                return false;
+            });
+        });
+    </script>
+}
+
+<h2>Using HTML & JS</h2>
+
+<table>
+    <tr>
+        <th>Year</th>
+        <th>Model</th>
+        <th>Color</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Year)</td>
+
+            <td>@Html.DisplayFor(modelItem => item.Model)</td>
+
+            <td>@Html.DisplayFor(modelItem => item.Color)</td>
+
+            <td>
+                @if (item.Price < 10000)
+                {
+                    <span style="color:green">@item.Price</span>
+                }
+                else if (item.Price > 10000)
+                {
+                    <span style="color:red; font-weight:bold">@item.Price</span>
+                }
+                else
+                {
+                    <span style="color:darkblue">@item.Price</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "delete-link" });
+            </td>
+        </tr>
+    }
+
+</table>
